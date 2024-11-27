@@ -1,0 +1,84 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Distribution/Build directories
+build/
+dist/
+*.egg-info/
+*.egg
+*.wheel
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.pyenv/
+.virtualenv/
+
+# Test-related
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage/
+*.cover
+*.coverage
+*.pyc
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Django-related
+*.log
+*.pot
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+# Flask-related
+instance/
+*.db
+*.sqlite
+
+# IDE-specific directories and files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*.swp
+
+# Environment variables
+.env
+.env.*.local
+.secret
+.settings
+
+# Compiled files and binaries
+*.o
+*.out
+*.so
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Miscellaneous
+*.log
+*.tmp
+*.pid

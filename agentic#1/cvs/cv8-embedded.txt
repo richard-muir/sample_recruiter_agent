@@ -1,0 +1,45 @@
+Jordan Smith
+Passionate Embedded Systems Specialist
+
+Contact
+Email: jordan.smith@gmail.com
+LinkedIn: linkedin.com/in/jordan-smith-embedded
+Phone: +44 7123 789 456
+GitHub: github.com/jordan-smith
+
+Experience
+Embedded Systems Engineer @ NexTech Devices
+Sep 2021 – Present
+
+Designed firmware for IoT devices using C and C++, reducing power consumption by 30%.
+Collaborated with hardware engineers to debug and optimize PCB designs for embedded systems.
+Implemented over-the-air (OTA) updates for device firmware, ensuring seamless deployment.
+Firmware Developer Intern @ SmartLink Solutions
+Jun 2021 – Aug 2021
+
+Developed drivers for microcontrollers (STM32) using ARM Cortex-M architecture.
+Wrote unit tests to verify firmware functionality, achieving 95% test coverage.
+Contributed to the development of a sensor-based monitoring system for industrial automation.
+Education
+MSc in Embedded Systems Engineering — Sep 2021
+Imperial College London
+
+BEng (Hons) in Electronics and Communication Engineering — June 2020
+University of Bristol
+
+Skills
+Programming Languages
+C, C++, Python
+
+Microcontrollers & Platforms
+STM32, Arduino, Raspberry Pi
+
+Protocols
+I2C, SPI, UART, MQTT
+
+Tools & Debugging
+Keil uVision, JTAG, Logic Analyzers
+
+Projects
+Home Automation System: Developed firmware for smart home devices, including light dimmers and temperature sensors.
+Drone Navigation Controller: Created a navigation algorithm for a quadcopter using PID control and sensor fusion.

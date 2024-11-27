@@ -1,0 +1,50 @@
+Jordan Lee
+Junior Data Engineer & Analyst
+
+Contact
+Email: jordan.lee@gmail.com
+LinkedIn: linkedin.com/in/jordan-lee
+Phone: +44 7512 345 678
+GitHub: github.com/jordan-lee
+
+Experience
+Data Analyst Intern @ Bright Analytics
+June 2023 – Present
+
+Assisted in building ETL pipelines using Python and SQL to automate data processing workflows.
+Designed and maintained dashboards in Tableau to visualize sales and operational data, reducing manual reporting time by 40%.
+Collaborated with cross-functional teams to identify data-driven solutions for business challenges.
+Junior Data Technician @ CloudLogic Solutions
+Aug 2021 – May 2023
+
+Supported the implementation of a data warehouse using BigQuery, ensuring accurate data ingestion and retrieval.
+Wrote and optimized SQL queries for ad hoc reporting and analytics tasks.
+Conducted quality assurance checks on datasets to identify and resolve inconsistencies.
+Part-Time Python Tutor @ CodeForward Academy
+Jan 2022 – Dec 2022
+
+Provided one-on-one tutoring sessions for beginners in Python, focusing on data analysis and visualization.
+Developed lesson plans covering libraries like Pandas and Matplotlib, tailored to students’ goals.
+Education
+BSc (Hons) in Data Science and Analytics — June 2021
+University of London
+
+Google Data Analytics Professional Certificate — March 2021
+
+Technology Skills
+Programming & Data Analysis
+Python, SQL, Pandas, dbt
+
+Data Visualization
+Tableau, PowerBI
+
+Cloud & Databases
+BigQuery, Snowflake
+
+Other Tools
+Git, Jupyter Notebooks
+
+Additional Skills
+Strong Communication and Teamwork
+Problem-Solving and Critical Thinking
+Quick Learner with a Passion for Data

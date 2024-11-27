@@ -1,0 +1,50 @@
+Taylor Morgan
+Aspiring Data Analyst & Engineer
+
+Contact
+Email: taylor.morgan@gmail.com
+LinkedIn: linkedin.com/in/taylor-morgan
+Phone: +44 7123 456 789
+GitHub: github.com/taylor-morgan
+
+Experience
+Data Analysis Intern @ Insight Futures
+May 2023 – Aug 2023
+
+Supported data cleaning and preparation tasks using Python and Pandas.
+Created basic Tableau dashboards to present sales trends for internal review.
+Wrote SQL queries to extract and analyze data from relational databases.
+Academic Project: Customer Spending Analysis
+Jan 2023 – May 2023
+
+Analyzed transactional data for a mock retail company using Python.
+Built visualizations in Matplotlib and Seaborn to identify spending patterns.
+Presented findings in a structured report to demonstrate key business insights.
+Part-Time IT Support Assistant @ University IT Services
+Sep 2021 – Dec 2022
+
+Provided technical support to students and staff, ensuring timely resolution of issues.
+Documented common technical problems and solutions to improve service efficiency.
+Education
+BSc (Hons) in Data Analytics and Information Systems — June 2023
+University of Manchester
+
+Google Data Analytics Professional Certificate — April 2023
+
+Technology Skills
+Programming & Analysis
+Python, SQL, Pandas
+
+Data Visualization
+Tableau, Matplotlib, Seaborn
+
+Databases
+MySQL, SQLite
+
+Other Tools
+Excel, Git
+
+Additional Skills
+Strong Organizational and Communication Skills
+Team Collaboration and Adaptability
+Analytical Thinking and Problem-Solving
