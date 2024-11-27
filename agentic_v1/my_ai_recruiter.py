@@ -3,7 +3,11 @@ from pathlib import Path
 from uagents import Agent, Context, Model
 from uagents.setup import fund_agent_if_low
 
-from openai_context import ChatGPTContextManager
+if __name__ == '__main__':
+    from openai_context import ChatGPTContextManager
+else:
+    from .openai_context import ChatGPTContextManager
+
 
 from openai import OpenAI
 
@@ -15,12 +19,21 @@ RECIPIENT_ADDRESS = "agent1qvwum0ystzx7djjh09lw529yajk7rznnvlutfrmv44v445hsp5x3z
 
 
 class SearchingAgent(ChatGPTContextManager):
-    def __init__(self, job_description, cv_dir, n_candidates=3):
+    def __init__(self, 
+                 job_description, 
+                 cv_dir, 
+                 n_candidates=3, 
+                 min_suitability_score=8, 
+                 suitability_threshold=0.7,
+                 most_important_skills='auto'):
         super().__init__()
         self.interviewing_agent_address = ''
         self.cv_dir = cv_dir
+        self.min_suitability_score = min_suitability_score
+        self.suitability_threshold = suitability_threshold
 
         self.candidates = []
+        self.selected_canidates = []
 
         # self.searching_agent = Agent(
         #     name="searcher",
@@ -43,9 +56,26 @@ class SearchingAgent(ChatGPTContextManager):
         
         # Initilse the searcher
         _ = self.send_message('system', self.initial_content)
+        if most_important_skills == 'auto':
+            self.most_important_skills = self.get_most_important_skills()
+        else:
+            self.most_important_skills = most_important_skills
 
+        self.cv_appraisal_response_format = self._generate_cv_appraisal_response_format()
+        self.appraise_candidates()
+        self.select_candidates()
+
+
+    @classmethod
+    def create_from_jd_and_cv_dir(cls, jd_file_path, cv_dir):
+        with open(jd_file_path, 'r', encoding='utf-8') as file:
+            job_content = file.read()
+
+        return cls(job_content, cv_dir)
+    
+    def get_most_important_skills(self):
         # Get the list of top five skills for the job
-        message = self.send_message('user',
+        skill_message = self.send_message('user',
                           "What are the five most important skills needed for this job?", 
                           response_format={
                             "type": "json_schema",
@@ -59,8 +89,8 @@ class SearchingAgent(ChatGPTContextManager):
                                             "items": {
                                                 "type": "string"
                                             },
-                                            "minItems": 5,
-                                            "maxItems": 5
+                                            # "minItems": 5,
+                                            # "maxItems": 5
                                         }
                                     },
                                     "required": ["most_important_skills"],
@@ -69,66 +99,101 @@ class SearchingAgent(ChatGPTContextManager):
                                 "strict": True
                             }
                         })
-        self.most_important_skills = message["most_important_skills"]
-        self.cv_appraisal_response_format = self._generate_cv_appraisal_response_format()
-
-        self.find_candidates(self.cv_dir)
+        skill_message_json = json.loads(skill_message)
+        return skill_message_json["most_important_skills"]
 
 
-    @classmethod
-    def create_from_jd_and_cv_dir(cls, jd_file_path, cv_dir):
-        with open(jd_file_path, 'r', encoding='utf-8') as file:
-            job_content = file.read()
-
-        return cls(job_content, cv_dir)
     
-    def find_candidates(self, cv_dir):
-        
+    def appraise_candidates(self):
         
         # Directory containing text files
         folder_path = Path(self.cv_dir)
 
         # Iterate through .txt files in the directory
-        for file_path in folder_path.glob("*.txt"):
-            with file_path.open("r", encoding="utf-8") as file:
-                cv_contents = file.read()
-                self._appraise_cv(cv_contents)
+        for cv_path in folder_path.glob("*.txt"):
+            self._appraise_cv(cv_path)
 
 
-    def _appraise_cv(self, cv_text):
+    def _appraise_cv(self, cv_path):
+        with cv_path.open("r", encoding="utf-8") as file:
+            cv_text = file.read()
+
         instruction = f"""Please appraise this CV for the following skills: {self.most_important_skills}.
-        You should give a score of 0-10 for how well the candidate does at each of the skills, as well as an overall suitability
-        score. You should also extract the candidate's name.
+        You should give a score of 0-10 for how well the candidate does at each of the skills and justify 
+        your reasoning for doing so by extracting relevant information from the CV. You should also give an overall overall suitability
+        score. You should also extract the candidate's name and email.
 
         Here is the CV: {cv_text}"""
 
         response = self.send_message('user', instruction, response_format=self.cv_appraisal_response_format)
-        response_content = response['choices'][0]['message']['content']
         
-        appraised_cv = json.loads(response_content)
+        appraised_cv = json.loads(response)
         appraised_cv['cv_text'] = cv_text
+        appraised_cv['cv_path'] = cv_path
         self.candidates.append(appraised_cv)
+
+
+    def select_candidates(self):
+        # selected_candidates = []
+        # unselected_candidates = []
+        for candidate in self.candidates:
+            candidate_scores = [
+                candidate['skills'][sc] for sc in self.most_important_skills
+                ]
+            candidate_scores.append(candidate['overall_score'])
+            score_thresholds = [sc >= self.min_suitability_score for sc in candidate_scores]
+            pc_scores_ge_threshold = sum(score_thresholds) / len(score_thresholds)
+            candidate['scores_ge_threshold'] = pc_scores_ge_threshold
+            if pc_scores_ge_threshold >= self.suitability_threshold:
+                candidate['selected'] = True
+            else:
+                candidate['selected'] = False
 
 
 
     def _generate_cv_appraisal_response_format(self):
         # Create dynamic properties for each skill's score
         properties = {}
-        required_fields = ["name", "overall_score"]  # Include 'name' in the required fields
-
+        required_fields = ["name", "email", "overall_score", "skills"]  # Include 'name' in the required fields
+        properties["name"] = {
+            "type": "string",
+            "description": "The candidate's name"
+        }
+        properties["email"] = {
+            "type": "string",
+            "description": "The candidate's enail address"
+        }
         properties["overall_score"] = {
             "type": "integer",
             "description": "Overall score for the candidate based on skill appraisal (0-10)."
         }
         
+        skill_properties = {}
+        skill_required = []
+        
         # Loop through the list of skills and create dynamic keys
         for i, skill in enumerate(self.most_important_skills, 1):
-            skill_key = f"skill{i}_score"
-            properties[skill_key] = {
+            # skill_key = f"skill{i}_score"
+            skill_properties[skill] = {
                 "type": "integer",
                 "description": f"Score (0-10) for {skill}."
             }
-            required_fields.append(skill_key)
+            skill_required.append(skill)
+            
+            skill_justify = f'{skill}_JUSTIFICATION'
+            skill_properties[skill_justify] = {
+                "type": "string",
+                "description": f"Justification for the score given to {skill} for the candidate."
+            }
+            skill_required.append(skill_justify)
+
+        properties['skills'] = {
+            'type': 'object',
+            'description': "The list of skills and associated data",
+            'properties': skill_properties,
+            'required': skill_required,
+            "additionalProperties": False
+        }
 
         # Return the dynamic response_format
         return {
@@ -146,8 +211,9 @@ class SearchingAgent(ChatGPTContextManager):
         }
 
         
-
-searcher = SearchingAgent.create_from_jd_and_cv_dir("jobs/job1.txt", "cvs")
+if __name__ == '__main__':
+    
+    searcher = SearchingAgent.create_from_jd_and_cv_dir("agentic_v1/jobs/job1.txt", "agentic_v1/cvs")
 
 
 class InterviewAgent(ChatGPTContextManager):

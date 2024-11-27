@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recruiter</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        function loading(event){
+            console.log(event)
+            // Prevent the form from submitting immediately
+            event.preventDefault();
+            // Show the loader
+            document.getElementById("loader").style.display = "flex";
+            // Submit the form manually
+            document.getElementById("recruitment-form").submit();
+        }
+    </script>
+    <style>
+        #loader {
+            position: fixed; /* Fixed to the screen */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none; /* Use Flexbox to center the loader */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 9999; /* Make sure it appears on top */
+        }
+        #loader div {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+            }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div></div>
+    </div>
+    <div class="container my-5" id='content'>
+        <h1 class="text-center mb-4">Anja's AI Recruiter</h1>
+        <form id="recruitment-form" action="/process" method="post" enctype="multipart/form-data">
+            <!-- Job Description Upload -->
+            <div class="mb-3">
+                <label for="job_description" class="form-label">Job Description:</label>
+                <input type="file" class="form-control" name="job_description" required>
+            </div>
+            <br>
+
+            <!-- CVs Upload -->
+            <div class="mb-3">
+                <label for="cvs" class="form-label">CVs:</label>
+                <input type="file" class="form-control" name="cvs" multiple required>
+            </div>
+            <br>
+
+                       <!-- Number of Candidates -->
+            <div class="mb-3">
+                <label for="n_candidates" class="form-label">Number of Candidates:</label>
+                <input type="number" class="form-control" name="n_candidates" value="3">
+            </div>
+
+            <!-- Minimum Suitability Score -->
+            <div class="mb-3">
+                <label for="min_suitability_score" class="form-label">Minimum Suitability Score:</label>
+                <input type="number" class="form-control" name="min_suitability_score" value="8">
+            </div>
+
+            <!-- Suitability Threshold -->
+            <div class="mb-3">
+                <label for="suitability_threshold" class="form-label">Suitability Threshold (0-1):</label>
+                <input type="number" step="0.1" class="form-control" name="suitability_threshold" value="0.7">
+            </div>
+
+            <!-- Optional Skills -->
+            <div class="mb-3">
+                <label for="skills" class="form-label">Optional Skills (max 5):</label>
+                <input type="text" class="form-control mb-2" name="skills" placeholder="Enter skill 1">
+                <input type="text" class="form-control mb-2" name="skills" placeholder="Enter skill 2">
+                <input type="text" class="form-control mb-2" name="skills" placeholder="Enter skill 3">
+                <input type="text" class="form-control mb-2" name="skills" placeholder="Enter skill 4">
+                <input type="text" class="form-control mb-2" name="skills" placeholder="Enter skill 5">
+            </div>
+            <br>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" onclick="loading(event);">Find Candidates</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (Optional but recommended) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
