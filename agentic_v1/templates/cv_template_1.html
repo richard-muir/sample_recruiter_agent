@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ profile.name }} - Curriculum Vitae</title>
+
+<meta name="viewport" content="width=device-width"/>
+<meta name="description" content="The Curriculum Vitae of {{ profile.name }}."/>
+<meta charset="UTF-8"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='cv_template_1_style.css') }}">
+<link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+<body id="top">
+<div id="cv">
+	<div class="mainDetails">
+		<div id="headshot" class="">
+			<img src="{{ url_for('static', filename='headshot.jpg') }}" alt="Headshort" />
+		</div>
+		
+		<div id="name">
+			<h1 class="">{{ profile.name }}</h1>
+			<h2 class="">{{ profile.job_title }}</h2>
+		</div>
+		
+		<div id="contactDetails" class="">
+			<ul>
+				<li>e: <a href="mailto:{{ profile.contact.email }}" target="_blank">{{ profile.contact.email }}</a></li>
+				<li>w: <a href="{{ profile.contact.website }}">{{ profile.contact.website }}</a></li>
+				<li>m: {{ profile.contact.phone }}</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div id="mainArea" class="">		
+		
+		<section>
+			<div class="sectionTitle">
+				<h1>Work Experience</h1>
+			</div>
+			
+			<div class="sectionContent">
+				{% for job in profile.jobs %}
+					<article>
+						<h2>{{ job.title }}</h2>
+						<p class="subDetails">{{ job.dates }}</p>
+						<p>{{ job.description }}</p>
+					</article>
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+		</section>
+		
+		
+		<section>
+			<div class="sectionTitle">
+				<h1>Key Skills</h1>
+			</div>
+			
+			<div class="sectionContent">
+				<ul class="keySkills">
+					{% for skill in profile.skills %}
+						<li>{{ skill }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</section>
+		
+		
+		<section>
+			<div class="sectionTitle">
+				<h1>Education</h1>
+			</div>
+			
+			<div class="sectionContent">
+				{% for edu in profile.education %}
+					<article>
+						<h2>{{ edu.qualification }}</h2>
+						<p class="subDetails">{{ edu.institution }}: {{ edu.dates }}</p>
+						<p>{{ edu.description }}</p>
+					</article>
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+		</section>
+
+		<div id="button-div" style="display: flex;justify-content: flex-end;">
+			<button id="downloadBtn" class='btn btn-link' onclick="getPDF()">Print CV</button>
+			<form action="/" method="GET">
+				<button id="refresh" class='btn btn-link'>Refresh CV</button>
+			</form>
+		</div>
+		
+	</div>
+</div>
+<script type="text/javascript">
+	function getPDF() {
+		document.getElementById("button-div").style.display = "none";
+		window.print()
+		document.getElementById("button-div").style.display = "flex";
+	}
+</script>
+</body>
+</html>

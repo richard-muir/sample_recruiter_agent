@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Appraisal Results</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">CV Appraisal Results for {{ candidate.name }}</h1>
+        <p class="text-center">Thank you for submitting your CV! We have appraised it against the key skills and requirements outlined in the job description. Below, you'll find a detailed evaluation of your skills in relation to the role, along with an overall suitability score.
+
+        The appraisal focuses on the most important skills identified for the position. For each skill, you'll see:
+
+        Your score on a scale of 0-10, reflecting how well your CV demonstrates expertise in this area.
+        A justification, explaining the reasons for the score based on the information provided in your CV.
+        Additionally, we have calculated an overall suitability score to give you a high-level view of your alignment with the job requirements.
+
+        We hope this feedback provides valuable insight into how your skills match the role and helps you in your career journey. If you have any questions or need clarification, feel free to reach out.</p>
+                
+        <!-- Accordion for collapsible sections -->
+        <div>
+            <div>
+                <!-- List of selected candidates -->
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h3>{{ candidate.name }}</h3><br>
+                        <em>Email:</em> {{ candidate.email }}<br>
+                        <em>Overall Suitability Score:</em> {{ candidate.overall_score }}<br>
+                        <h4>Skills Appraisal:</h4><br>
+                        {% for skill, score in candidate['skills'].items() if 'JUSTIFICATION' not in skill and 'ADVICE' not in skill %}
+                            <h4>{{ skill }}: {{ score }}</h4><br>
+                            <strong>Assessment of CV information in this area: </strong>
+                            {{ candidate['skills'][skill + "_JUSTIFICATION"] }}<br><br>
+
+                            <strong>Suggestion for improvement: </strong>
+                            {{ candidate['skills'][skill + "_ADVICE"] }}<br><br>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>   
+            <div id="button-div" style="display: flex;justify-content: flex-end;">
+                <form action="/" method="GET">
+                    <button id="refresh" class='btn btn-link'>Reupload CV</button>
+                </form>
+                <form action="/generate_cv" method="POST">
+                    <button id="generate_cv" class='btn btn-link'>Show me the adapted CV</button>
+                </form>
+            </div>         
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (Optional but recommended) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

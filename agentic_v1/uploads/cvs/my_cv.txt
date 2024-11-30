@@ -1,0 +1,68 @@
+Rich Muir
+Data Engineer & Senior Analyst
+Contact
+Email: richard.f.muir@gmail.com
+LinkedIn: linkedin.com
+Phone: +44 7735 659 696
+GitHub: github.com/richard-muir
+
+
+Experience & Achievements
+
+Data & Automation Engineer @ SATURATE!
+May 2024 – Present
+Designed and developed an artist and release management platform, reducing artist onboarding times from ~2 weeks to <1 day.
+Built a data pipeline with monitoring, alerts, automation integrations, and progress visualization using Airflow.
+Developed a data warehouse for structured and unstructured data, including PII, implementing principles of least privilege and encryption for security.
+Integrated third-party services (Mailchimp, Discord, etc.) for enhanced monitoring and cost reduction.
+
+Senior Research Analyst @ SlashData
+Feb 2020 – Present
+Product owner and individual contributor for an internal Python analysis, modelling, and visualization library that extends Pandas and Sklearn.
+Created and executed the development roadmap for internal tooling used by key teams in the business.
+Added key data ETL and visualization features.
+Expanded test coverage to >90% and improved documentation.
+Responsible for architecture, project planning, management, and code reviews.
+Lead Custom Research Analyst for Emerging Technology Projects
+Collaborated with cross-functional teams at Google, Microsoft, and Meta to transform business challenges into research questions.
+Led research design, data collection, quality control, analysis, modelling, and presentations to senior stakeholders.
+
+Data Product Manager @ Indicia
+Jan 2017 – Dec 2019
+Managed a small team of analysts building reporting solutions using Tableau, PowerBI, and Qlikview.
+Key Projects:
+Unilever Reporting: Developed Tableau dashboards and data pipeline using Python and AWS, securing a €90M contract.
+ShopDirect Customer Engagement: Created and deployed predictive models for customer engagement and implemented A/B testing for email campaigns.
+In-store Customer Engagement: Integrated data from a sensor network into Athena and Tableau for real-time analytics.
+
+
+Python Visualization Instructor @ Udemy
+April 2017 – Jan 2021
+Designed training materials for Python developers, focusing on visualization skills.
+
+Data Analyst @ HEFCE/OfS (UK Government)
+Aug 2015 – Jan 2017
+Conducted analysis and linkage of student data using SQL, SAS, Tableau, and Python.
+
+Technology Skills
+Analysis & ETL
+Python, SQL, Apache Airflow, Kafka, dbt, R, Alteryx
+DevOps & CI/CD
+Git, GitHub Actions, Docker
+Data Warehousing
+Snowflake, BigQuery
+Data Visualization
+Tableau, PowerBI
+
+Education
+Tableau Qualified Associate — June 2019
+BSc (Hons) - Statistics, Economics & Spanish — June 2016
+
+Other Skills & Experience
+Problem Solving
+Cross-functional Teams
+Project Planning & Management
+Written & Oral Communication
+Languages: Spanish (B2), Bulgarian (A1)
+
+

@@ -1,0 +1,62 @@
+Alex Turner
+Data Engineer & Senior Analyst
+
+Contact
+Email: alex.turner@gmail.com
+LinkedIn: linkedin.com/in/alex-turner
+Phone: +44 7896 123 456
+GitHub: github.com/alex-turner
+
+Experience & Achievements
+Data Engineer @ Crescendo Insights
+May 2024 – Present
+
+Designed and implemented a scalable platform for managing client data workflows, reducing manual processing time by 85%.
+Built and maintained automated ETL pipelines using Apache Airflow, ensuring real-time monitoring and robust error handling.
+Developed a secure data lake and warehouse for structured and unstructured data using Snowflake and BigQuery, implementing encryption and role-based access.
+Integrated third-party tools (e.g., Slack, Mailchimp) to enhance workflow automation and minimize operational costs.
+Senior Data Analyst @ DataSphere
+Feb 2020 – Present
+
+Led development of a Python-based analytics library, extending Pandas and Scikit-learn for internal use by analytics teams.
+Defined and executed a roadmap for ETL and data visualization tools, boosting team productivity by 30%.
+Increased test coverage to 90%+ and enhanced tool documentation for broader adoption.
+Managed cross-functional projects with clients like Amazon and Microsoft, translating business needs into actionable research and delivering findings to executive stakeholders.
+Data Solutions Specialist @ Insight Analytics
+Jan 2017 – Dec 2019
+
+Directed a team of analysts to deliver insights via Tableau, PowerBI, and Python-based solutions.
+Key Projects:
+Retail Analytics: Developed a real-time Tableau dashboard pipeline, contributing to a $100M client contract renewal.
+Customer Engagement Models: Designed predictive models for customer behavior, resulting in a 25% uplift in campaign ROI.
+IoT Analytics: Integrated sensor data into analytics platforms for live monitoring of store activity.
+Python Instructor @ LearnCode Academy
+Apr 2017 – Jan 2021
+
+Created and delivered Python courses focusing on advanced visualization techniques and best practices for analysts and engineers.
+Data Analyst @ GovData UK
+Aug 2015 – Jan 2017
+
+Conducted large-scale analysis of government datasets using SQL, SAS, and Python.
+Built Tableau dashboards to inform policy decisions and streamline data reporting processes.
+Technology Skills
+Analysis & ETL
+Python, SQL, Apache Airflow, dbt, Kafka, Alteryx
+
+DevOps & CI/CD
+Git, GitHub Actions, Docker
+
+Data Warehousing
+Snowflake, BigQuery, AWS Redshift
+
+Data Visualization
+Tableau, PowerBI
+
+Education & Certifications
+Tableau Certified Associate — June 2019
+BSc (Hons) in Data Science and Economics — June 2016
+Additional Skills
+Cross-functional Collaboration
+Project Leadership and Planning
+Advanced Problem-Solving
+Languages: Spanish (B2), Bulgarian (A1)

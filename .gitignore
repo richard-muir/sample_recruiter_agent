@@ -4,6 +4,8 @@
 *.pyd
 __pycache__/
 
+
+
 # Distribution/Build directories
 build/
 dist/
@@ -19,6 +21,7 @@ ENV/
 .venv/
 .pyenv/
 .virtualenv/
+agentic/    
 
 # Test-related
 .pytest_cache/

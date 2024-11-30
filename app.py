@@ -90,6 +90,9 @@ def process_files():
         most_important_skills=skills
     )
 
+    agent.appraise_candidates()
+    agent.select_candidates()
+
     # Separate selected and unselected candidates
     selected = [cand for cand in agent.candidates if cand['selected']]
     unselected = [cand for cand in agent.candidates if not cand['selected']]

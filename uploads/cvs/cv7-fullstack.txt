@@ -1,0 +1,41 @@
+Chris Taylor
+Innovative Full-Stack Developer
+
+Contact
+Email: chris.taylor@gmail.com
+LinkedIn: linkedin.com/in/chris-taylor-dev
+Phone: +44 7896 543 210
+GitHub: github.com/chris-taylor
+
+Experience
+Full-Stack Developer @ Horizon WebWorks
+May 2021 – Present
+
+Designed and developed scalable web applications using React, Node.js, and MongoDB, reducing page load times by 40%.
+Implemented RESTful APIs and integrated third-party services for payment processing and user authentication.
+Developed and maintained a component library to streamline UI/UX development across projects.
+Frontend Developer Intern @ Creative Sparks Studio
+Jan 2021 – Apr 2021
+
+Built responsive and accessible websites using HTML5, CSS3, and JavaScript (ES6).
+Worked with designers to implement pixel-perfect UIs, enhancing client satisfaction by 25%.
+Debugged and optimized code, reducing performance bottlenecks.
+Education
+BSc (Hons) in Computer Science — June 2020
+University of Edinburgh
+Skills
+Programming Languages
+JavaScript, TypeScript, Python
+
+Frameworks & Libraries
+React, Angular, Node.js, Express
+
+Databases
+MongoDB, PostgreSQL
+
+DevOps & Tools
+Docker, GitHub Actions, Jenkins
+
+Projects
+E-commerce Platform: Built a complete web solution for a retail client, including shopping cart functionality, user profiles, and payment gateway integration.
+Chat Application: Developed a real-time messaging app using WebSockets, with features like typing indicators and message reactions.

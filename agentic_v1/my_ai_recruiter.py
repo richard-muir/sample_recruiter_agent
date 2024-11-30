@@ -3,10 +3,12 @@ from pathlib import Path
 from uagents import Agent, Context, Model
 from uagents.setup import fund_agent_if_low
 
-if __name__ == '__main__':
-    from openai_context import ChatGPTContextManager
-else:
-    from .openai_context import ChatGPTContextManager
+# if __name__ == '__main__':
+#     from openai_context import ChatGPTContextManager
+# else:
+#     from .openai_context import ChatGPTContextManager
+
+from openai_context import ChatGPTContextManager
 
 
 from openai import OpenAI
@@ -62,8 +64,6 @@ class SearchingAgent(ChatGPTContextManager):
             self.most_important_skills = most_important_skills
 
         self.cv_appraisal_response_format = self._generate_cv_appraisal_response_format()
-        self.appraise_candidates()
-        self.select_candidates()
 
 
     @classmethod

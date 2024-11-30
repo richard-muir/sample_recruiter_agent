@@ -1,0 +1,71 @@
+About the job
+Seasalt is a modern Cornish company with an ambitious vision. As a successful omnichannel retailer spanning our website, over 70 shops and 400 wholesale stockists, we’re always challenging ourselves to think creatively, innovate and improve.
+
+Working within our multi-disciplinary Data & Analytics Delivery Teams in collaboration with the business and Data & Analytics colleagues you’ll develop and construct data products and services and integrate them into systems and business processes. You’ll support the design and implementation of data flows/pipelines to connect operational systems, data for analytics and business intelligence systems.
+
+This is a full-time, permanent role and can be based remotely within the UK, with occasional travel to our Cornwall head offices (approx. 2 times per year).
+
+Please note we are not able provide visa sponsorship. You must be resident in the UK.
+
+You'll Help Us By
+
+Providing data profiling and source system analysis, presenting insights to colleagues to support the end use of data. You’ll be communicating between technical and non-technical stakeholders.
+
+Designing, building and testing data products and data integration services, including the data warehouse or data lake. Translating and integrating business requirements into the analytics architecture by working closely with Data & Analytics colleagues and the business. Developing ELT/ETL scripts/routines to facilitate the movement of data across the business’ full analytics architecture. Designing and implementing ELT/ETL procedures for intake of data from both internal and external sources, ensuring data exceptions/rejections are identified.
+
+Understanding the impact of emerging trends on the organisation in data tools, analysis techniques and data usage. Delivering appropriate technologies to deliver resilient, scalable, and future-proofed data solutions, following guidance on good practice analytics architecture development and design.Producing and updating data models, applying industry recognised patterns and standards.
+
+Responding to problems in databases, data processes, data products and services as they occur. Initiate actions monitor services and identify trends to resolve problems.
+
+Working with our data architecture, senior data engineering and data governance teams to understand our standards and best practice guidelines and provide inputs to enable their continuous improvement. Creating and maintaining appropriate levels of documentation to enable knowledge share and future support of products created.
+
+Testing outputs and products to the appropriate quality level and where possible create automated, repeatable tests. Validate and document outcomes prior to releasing to users.
+
+Provide end-user support and training for the data products that your team creates.
+
+Continuously develop yourself and your team. Keep abreast of industry developments and best practice.
+
+The Skills You'll Be Sharing With The Team
+
+Experience designing, developing, and implementing: - cloud hosted data/integration architectures on Microsoft Azure, including Synapse Analytics, Data Lake, Azure Data Factory/Synapse Pipelines, Tabular SSAS, Power BI datasets.
+Working knowledge of data design pattern called medallion architecture (i.e. Bronze, Silver and Gold).
+Data Warehouse Solutions - using SQL, SSAS & SSIS
+Data analysis and the data development process with analytical and problem-solving skills
+Awareness of agile techniques and processes
+Data modelling
+Metadata management
+Data problem resolution, a logical thinker with an eye for detail
+Data engineering
+Developing, tuning, and maintaining SQL Server database code and ETL
+Knowledge of self-serve BI Tools
+Good communication skills
+Ability to work with end users to identify solutions and optimise processes.
+Ability to prioritise and organise own work.
+Team player, with an efficient, proactive and flexible approach
+
+Why We Hope You’ll Love Working With Us
+
+The success of Seasalt is down to the skill and hard work of our team. We don't just want to attract the best and brightest people to come and work with us, we want you to stay and grow with us. From the moment your Seasalt journey begins, it's our pledge to support you by providing dedicated learning and development opportunities that will enhance your day-to-day working life and help you build your skills and knowledge.
+
+Benefits
+
+As well as doing everything we can to boost your development professionally, we believe encouraging personal growth is just as important. So you can fulfil your passion and purpose, not just at work but in life, we offer a range of benefits that are designed to enhance your career and wellbeing:
+
+Salary: £39,000 - £41,700 pa
+34 days paid annual leave (including bank holidays), increasing with length of service
+Attractive 50% employee discount
+Flexible benefits allowance to personalise your benefits package
+Private Medical Scheme including 24/7 virtual GP
+Free access to our Employee Assistance Programme through Retail Trust with 24/7 support
+Pension plan with generous 7% employer contributions
+Life assurance programme
+Enhanced family leave policies
+Flexible working opportunities with our ‘blended’ working approach
+Learning and Development opportunities including specialist training, coaching opportunities, and professional qualification support
+Paid volunteering opportunities
+Employee networks to develop and provide support to our people, including the Inclusion Network and Culture Crew
+100s of savings on top retailers and gym memberships through our discount hub
+
+At Seasalt we have a brilliant team of people - they're what make Seasalt a fantastic place to work. We love to celebrate uniqueness and are committed to making Seasalt a place where everyone feels they belong. As an inclusive employer, we want to invite a diverse range of candidates to apply for our roles.
+
+We aim to work flexibly where possible and value a range of perspectives - diversity of thought helps us to grow - so please apply if this is a role that would make you excited to come to work every day. We're happy to help with any adjustments to our recruitment process and beyond. Just drop us an email at careers@seasaltcornwall.co.uk
