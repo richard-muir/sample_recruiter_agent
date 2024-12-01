@@ -8,7 +8,7 @@ from uagents.setup import fund_agent_if_low
 # else:
 #     from .openai_context import ChatGPTContextManager
 
-from openai_context import ChatGPTContextManager
+from .openai_context import ChatGPTContextManager
 
 
 from openai import OpenAI

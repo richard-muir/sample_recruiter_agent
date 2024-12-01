@@ -37,7 +37,7 @@
                                     {% endfor %}
                                     <!-- Display CV download button -->
                                     {% if candidate['cv_path'] %}
-                                        <a href="{{ url_for('download_cv', filename=candidate['cv_path']) }}" class="btn btn-primary" role="button">Download CV</a>
+                                        <a href="{{ url_for('recruiter.download_cv', filename=candidate['cv_path']) }}" class="btn btn-primary" role="button">Download CV</a>
                                     {% endif %}
                                 </li>
                             {% endfor %}
@@ -69,7 +69,7 @@
                                     {% endfor %}
                                     <!-- Display CV download button -->
                                     {% if candidate['cv_path'] %}
-                                        <a href="{{ url_for('download_cv', filename=candidate['cv_path']) }}" class="btn btn-primary" role="button">Download CV</a>
+                                        <a href="{{ url_for('recruiter.download_cv', filename=candidate['cv_path']) }}" class="btn btn-primary" role="button">Download CV</a>
                                     {% endif %}
                                 </li>
                             {% endfor %}

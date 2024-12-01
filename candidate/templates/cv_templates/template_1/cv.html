@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <meta name="description" content="The Curriculum Vitae of {{ profile.name }}."/>
 <meta charset="UTF-8"> 
-<link rel="stylesheet" href="{{ url_for('static', filename='cv_template_1_style.css') }}">
+<link rel="stylesheet" href="{{ url_for('candidate.static', filename='cv_templates/template_1/style.css') }}">
 <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
 
 <!--[if lt IE 9]>
@@ -17,7 +17,7 @@
 <div id="cv">
 	<div class="mainDetails">
 		<div id="headshot" class="">
-			<img src="{{ url_for('static', filename='headshot.jpg') }}" alt="Headshort" />
+			<img src="{{ url_for('candidate.static', filename='cv_templates/template_1/headshot.jpg') }}" alt="Headshot" />
 		</div>
 		
 		<div id="name">
@@ -90,7 +90,7 @@
 		<div id="button-div" style="display: flex;justify-content: flex-end;">
 			<button id="downloadBtn" class='btn btn-link' onclick="getPDF()">Print CV</button>
 			<form action="/" method="GET">
-				<button id="refresh" class='btn btn-link'>Refresh CV</button>
+				<button id="refresh" class='btn btn-link'>Start Again</button>
 			</form>
 		</div>
 		
