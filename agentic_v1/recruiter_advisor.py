@@ -41,7 +41,6 @@ class AdvisorAgent(ChatGPTContextManager):
             You offer advice for how to improve the CV, but for roles that are too different from the candidate's skillset,
             or too advanced for the candidate's experience, you are not afraid to tell them that it might be better to look elsewhere.
             For your reference, here is the job description: {job_description}.
-            And here's the candidate's CV: {cv}.
 
             You will also receieve some data from another recruiter who has reviewed the job description, identified the top
             5 skills for this job, and has appraised this CV for how well it matches the job.
@@ -71,9 +70,9 @@ class AdvisorAgent(ChatGPTContextManager):
             'user', f"""Here is the recruiter's opinion of what are the top 5 
             skills for this job:\n {self.most_important_skills}\n
 
-            And here is the recruiter's assessment of the candidate's CV: \n {self.recruiter_appraisal_data}\n
+            Here is the recruiter's assessment of the candidate's CV: \n {self.recruiter_appraisal_data}\n
 
-            You have already recieved the job description and candidates CV.
+            And here is the candidate's CV: \n {self.cv}
 
             For each of the skills listed, please can you provide information to the candidate as to how
             they can improve the way they demonstrate knowledge/experience of these skills. If the skill score is very
@@ -134,7 +133,3 @@ class AdvisorAgent(ChatGPTContextManager):
             }
         }
 
-        
-if __name__ == '__main__':
-    
-    searcher = SearchingAgent.create_from_jd_and_cv_dir("agentic_v1/jobs/job1.txt", "agentic_v1/cvs")

@@ -6,13 +6,54 @@
     <title>Job Application Helper</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+    <script type="text/javascript">
+        function loading(event){
+            console.log(event)
+            // Prevent the form from submitting immediately
+            event.preventDefault();
+            // Show the loader
+            document.getElementById("loader").style.display = "flex";
+            // Submit the form manually
+            document.getElementById("upload-form").submit();
+        }
+    </script>
+    <style>
+        #loader {
+            position: fixed; /* Fixed to the screen */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none; /* Use Flexbox to center the loader */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 9999; /* Make sure it appears on top */
+        }
+        #loader div {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+            }
+    </style>
 <body>
+    <div id="loader">
+        <div></div>
+    </div>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Upload the Job Description and your current CV</h1>
 
         <div class="card mx-auto" style="max-width: 600px;">
             <div class="card-body">
-                <form action="/upload" method="post" enctype="multipart/form-data">
+                <form action="/upload"  id="upload-form" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="jobDescription" class="form-label">Job Description (.txt only)</label>
                         <input type="file" class="form-control" id="jobDescription" name="job_description" accept=".txt" required>
@@ -22,7 +63,7 @@
                         <input type="file" class="form-control" id="cvFile" name="cv_file" accept=".txt" required>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" onclick="loading(event);">Submit</button>
                     </div>
                 </form>
             </div>
