@@ -33,6 +33,7 @@ class SearchingAgent(ChatGPTContextManager):
         self.cv_dir = cv_dir
         self.min_suitability_score = min_suitability_score
         self.suitability_threshold = suitability_threshold
+        self.cvs = []
 
         self.candidates = []
         self.selected_canidates = []
@@ -109,15 +110,32 @@ class SearchingAgent(ChatGPTContextManager):
         # Directory containing text files
         folder_path = Path(self.cv_dir)
 
-        # Iterate through .txt files in the directory
         for cv_path in folder_path.glob("*.txt"):
-            self._appraise_cv(cv_path)
+            # Check if the CV appraisal already exists in self.candidates
+            existing_candidate = next((candidate for candidate in self.candidates if candidate['cv_path'] == cv_path), None)
+
+            if existing_candidate:
+                # Use the existing CV text
+                cv_text = existing_candidate['cv_text']
+                # Re-appraise the CV and update the existing candidate record
+                appraised_cv = self._appraise_cv(cv_text)
+                existing_candidate.update(appraised_cv)
+            else:
+                # Read the CV text from the file
+                with cv_path.open("r", encoding="utf-8") as file:
+                    cv_text = file.read()
+
+                # Appraise the CV
+                appraised_cv = self._appraise_cv(cv_text)
+                appraised_cv['cv_text'] = cv_text
+                appraised_cv['cv_path'] = cv_path
+
+                # Add the new appraisal to self.candidates
+                self.candidates.append(appraised_cv)
 
 
-    def _appraise_cv(self, cv_path):
-        with cv_path.open("r", encoding="utf-8") as file:
-            cv_text = file.read()
-
+    def _appraise_cv(self, cv_text):
+        
         instruction = f"""Please appraise this CV for the following skills: {self.most_important_skills}.
         You should give a score of 0-10 for how well the candidate does at each of the skills and justify 
         your reasoning for doing so by extracting relevant information from the CV. You should also give an overall overall suitability
@@ -128,9 +146,8 @@ class SearchingAgent(ChatGPTContextManager):
         response = self.send_message('user', instruction, response_format=self.cv_appraisal_response_format)
         
         appraised_cv = json.loads(response)
-        appraised_cv['cv_text'] = cv_text
-        appraised_cv['cv_path'] = cv_path
-        self.candidates.append(appraised_cv)
+        
+        return appraised_cv
 
 
     def select_candidates(self):

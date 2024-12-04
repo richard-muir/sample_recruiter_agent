@@ -54,8 +54,6 @@ def clear_directory(directory_path):
 
 @candidate_bp.route('/')
 def home():
-    print(55555555555555555555555555555555)
-    print(f"Requested URL: {request.url}")
     return render_template('c_index.html')
 
 
@@ -120,17 +118,22 @@ def update_cv():
         return jsonify({'error': 'No updates were provided.'}), 400
 
     # Process updates (e.g., save to a file, database, or pass to another agent)
-    update_cv_text = ''
+    updated_cv_text = ''
     for key, exp in updates.items():
         skill = key.replace('updates[', '').replace(']', '')
-        update_cv_text += f"{skill}: {exp}\n"
-    
-    candidate_bp.agent_store.candidate_agents['advisor_agent'].cv += update_cv_text
+        updated_cv_text += f"{skill}: {exp}\n"
+
+
+    # Update the appraisal based on the updated cv text
+    candidate_bp.agent_store.candidate_agents['searching_agent'].candidates[0]['cv_text'] += updated_cv_text
+    candidate_bp.agent_store.candidate_agents['searching_agent'].appraise_candidates()
+    candidate_appraisal = copy.deepcopy(candidate_bp.agent_store.candidate_agents['searching_agent'].candidates[0])
+
+    candidate_bp.agent_store.candidate_agents['advisor_agent'].cv += updated_cv_text
 
     candidate_advice = candidate_bp.agent_store.candidate_agents['advisor_agent'].advise_candidate()
 
-    candidate_appraisal = copy.deepcopy(candidate_bp.agent_store.candidate_agents['searching_agent'].candidates[0])
-
+    
     candidate_appraisal['skills'].update(candidate_advice['skills'])
 
     # Provide feedback to the candidate or redirect
