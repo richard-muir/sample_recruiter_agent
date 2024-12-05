@@ -1,5 +1,6 @@
-import openai
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
 class ChatGPTContextManager:
     def __init__(self, model="gpt-4o-mini-2024-07-18"):
@@ -9,10 +10,15 @@ class ChatGPTContextManager:
         :param api_key: Your OpenAI API key.
         :param model: The model to use, e.g., "gpt-4".
         """
+        # Load environment variables from .env file
+        load_dotenv()
+        # Get the API key from the .env file
+        self.api_key = os.getenv("OPENAI_API_KEY")
+
         # self.api_key = api_key
         self.model = model
         self.messages = []
-        self.client = OpenAI()
+        self.client = OpenAI(api_key=self.api_key)
 
         # Set the API key for the OpenAI library
         #  done using dotenv
