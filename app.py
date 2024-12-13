@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from recruiter import recruiter_bp
 from candidate import candidate_bp
 from agents import AgentStore
+from utils import protect_routes
 
 import os
 
@@ -26,6 +27,7 @@ recruiter_bp.agent_store = agent_store
 # Register Blueprints
 app.register_blueprint(recruiter_bp, url_prefix='/recruiter')
 app.register_blueprint(candidate_bp, url_prefix='/candidate')
+protect_routes(app)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,7 +50,8 @@ def login():
 def home():
     # Check if the user is logged in
     if 'logged_in' in session and session['logged_in']:
-        return render_template('index.html')
+        # return render_template('index.html')
+        return redirect(url_for('candidate.home'))
     else:
         return redirect(url_for('login'))
 
