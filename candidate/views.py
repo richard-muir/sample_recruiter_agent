@@ -8,7 +8,7 @@ from datetime import datetime
 from flask_weasyprint import HTML, render_pdf
 from flask_caching import Cache
 import pdfkit
-from werkzeug.utils import secure_filename
+import markdown
 
 import asyncio
 from pyppeteer import launch
@@ -18,6 +18,7 @@ from agents.recruiter_advisor_agent import AdvisorAgent
 from agents.recruiter_cv_writer_agent import CVWriterAgent
 
 from . import candidate_bp
+from utils import process_uploaded_file, process_link
 
 
     
@@ -39,6 +40,11 @@ JOB_DIR = os.path.join(UPLOAD_FOLDER, 'jd')  # Candidate's CV upload folder
 os.makedirs(CV_DIR, exist_ok=True)
 os.makedirs(JOB_DIR, exist_ok=True)
 
+ALLOWED_EXTENSIONS = {'txt', 'doc', 'docx', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 def clear_directory(directory_path):
     if os.path.exists(directory_path):
         for filename in os.listdir(directory_path):
@@ -57,48 +63,48 @@ def home():
     return render_template('c_index.html')
 
 
-@candidate_bp.route('/upload', methods=['POST'])
-def upload():
+@candidate_bp.route('/process', methods=['POST'])
+def process_files():
+    job_description_text = ""
+    cv_text = ""
+
+    # Job Description Handling
     job_file = request.files.get('job_description')
-    if job_file:
-        clear_directory(JOB_DIR)
-        job_path = os.path.join(JOB_DIR, secure_filename(job_file.filename))
-        job_file.save(job_path)
-    else:
-        return jsonify({'error': 'Job description file is required.'}), 400
+    job_link = request.form.get('job_description_link')
+    if job_file and allowed_file(job_file.filename):
+        job_description_text = process_uploaded_file(job_file)
+    elif job_link:
+        job_description_text = process_link(job_link)
 
+    # CV Handling
+    cv_file = request.files.get('cv')
+    cv_link = request.form.get('cv_link')
+    if cv_file and allowed_file(cv_file.filename):
+        cv_text = process_uploaded_file(cv_file)
+    elif cv_link:
+        cv_text = process_link(cv_link)
 
-    cv_file = request.files.get('cv_file')
-    if cv_file:
-        clear_directory(CV_DIR)
-        cv_path = os.path.join(CV_DIR, secure_filename(cv_file.filename))
-        cv_file.save(cv_path)
-
-    else:
-        return jsonify({'error': 'At least one CV file is required.'}), 400
     
-    job_content = open(job_path, 'r').read()
-    cv_content = open(cv_path, 'r').read()
-
-
     print("Generating candidate appraisal and advice")
     # Candidate appraisal
     searching_agent = SearchingAgent(
-        job_description=job_content,
+        job_description=job_description_text,
         cv_dir=CV_DIR,
         n_candidates=1,
         min_suitability_score=8,
         suitability_threshold=0,
         most_important_skills='auto'
     )
+    searching_agent.most_important_skills = ["Bitcoin knowledge and experience"] + searching_agent.most_important_skills
+
     searching_agent.appraise_candidates()
     candidate_bp.agent_store.candidate_agents['searching_agent'] = searching_agent
     candidate_appraisal = copy.deepcopy(searching_agent.candidates[0])
 
     # Candidate advice
     advisor_agent = AdvisorAgent(
-        job_description=job_content,
-        cv=cv_content,
+        job_description=job_description_text,
+        cv=cv_text,
         most_important_skills=searching_agent.most_important_skills,
         recruiter_appraisal_data=candidate_appraisal
     )
@@ -106,8 +112,9 @@ def upload():
     candidate_bp.agent_store.candidate_agents['advisor_agent'] = advisor_agent
     candidate_appraisal['skills'].update(candidate_advice['skills'])
 
+    job_description_md = markdown.markdown(job_description_text)
+    return render_template('feedback_template.html', candidate=candidate_appraisal, job_description=job_description_md)
 
-    return render_template('feedback_template.html', candidate=candidate_appraisal)
 
 
 

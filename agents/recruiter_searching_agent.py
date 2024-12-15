@@ -64,8 +64,6 @@ class SearchingAgent(ChatGPTContextManager):
         else:
             self.most_important_skills = most_important_skills
 
-        self.cv_appraisal_response_format = self._generate_cv_appraisal_response_format()
-
 
     @classmethod
     def create_from_jd_and_cv_dir(cls, jd_file_path, cv_dir):
@@ -106,6 +104,7 @@ class SearchingAgent(ChatGPTContextManager):
 
     
     def appraise_candidates(self):
+        self.cv_appraisal_response_format = self._generate_cv_appraisal_response_format()
         
         # Directory containing text files
         folder_path = Path(self.cv_dir)

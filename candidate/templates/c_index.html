@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <title>Job Application Helper</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -16,6 +17,25 @@
             // Submit the form manually
             document.getElementById("upload-form").submit();
         }
+        function toggleInput(field) {
+            const fileInput = document.getElementById(`${field}-file`);
+            const linkInput = document.getElementById(`${field}-link`);
+            const toggle = document.getElementById(`${field}-toggle`);
+            
+            if (toggle.checked) {
+                fileInput.classList.add('d-none');
+                linkInput.classList.remove('d-none');
+            } else {
+                fileInput.classList.remove('d-none');
+                linkInput.classList.add('d-none');
+            }
+        }
+        document.querySelectorAll('.custom-file-input').forEach(input => {
+            input.addEventListener('change', function () {
+                let fileName = this.files[0]?.name || "Choose file";
+                this.nextElementSibling.textContent = fileName;
+            });
+        });
     </script>
     <style>
         #loader {
@@ -43,6 +63,15 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
             }
+        .large-label {
+            font-size: 1.5rem; /* Adjust size as needed */
+            margin-bottom: 10px; /* Adds spacing */
+            color: #333; /* Optional: Sets a custom color */
+        }
+        .small-label {
+            font-size: 0.75rem; /* Adjust size as needed */
+            color: #333; /* Optional: Sets a custom color */
+        }
     </style>
 <body>
     <div id="loader">
@@ -57,22 +86,48 @@
         It will also make recommendations for how you can improve your CV to match the job description, and give you the opportunity
         to add more examples of your experience on the next page. 
 
-        Finally, you'll be able to download your optimised CV.
+        Finally, you'll be able to download your optimised CV.</p>
         <div class="card mx-auto" style="max-width: 600px;">
             <div class="card-body">
-                <form action="/candidate/upload"  id="upload-form" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="jobDescription" class="form-label">Job Description (.txt only)</label>
-                        <input type="file" class="form-control" id="jobDescription" name="job_description" accept=".txt" required>
+                <form id="upload-form" action="{{ url_for('candidate.process_files') }}" method="post" enctype="multipart/form-data">
+                    <!-- Job Description Input -->
+                    <div class="form-group">
+                        <label for="job-description-toggle" class="large-label">Job Description</label>
+                        <div class="d-flex align-items-center form-check form-switch">
+                            <input type="checkbox" id="job-description-toggle" role="switch" class="form-check-input me-2" onchange="toggleInput('job-description')">
+                            <label for="job-description-toggle" class="form-check-label">Use Link</label>
+                        </div>
+                        <div class="custom-file" id="job-description-file">
+                            <input type="file" class="custom-file-input form-control mt-2" name="job_description" accept=".txt,.pdf,.doc,.docx">
+                            <label class="custom-file-label small-label">Accepted file types: .txt, .pdf, .doc, .docx</label> 
+                        </div>
+                        <div class="custom-file  d-none" id="job-description-link">
+                            <input type="url" class="custom-file-input form-control mt-2" name="job_description_link" placeholder="https://example.com/job_description">
+                            <label class="custom-file-label small-label">Note: LinkedIn job descriptions not currently supported</label> 
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="cvFile" class="form-label">Your CV (.txt only)</label>
-                        <input type="file" class="form-control" id="cvFile" name="cv_file" accept=".txt" required>
+                    <br>
+                    <!-- CV Input -->
+                    <div class="form-group mt-3">
+                        <label for="cv-toggle" class="large-label">Your CV</label>
+                        <div class="d-flex align-items-center form-check form-switch">
+                            <input type="checkbox" id="cv-toggle" role="switch" class="form-check-input me-2" onchange="toggleInput('cv')">
+                            <label for="cv-toggle" class="form-check-label">Use Link</label>
+                        </div>
+                        <div class="custom-file" id="cv-file">
+                            <input type="file" class="custom-file-input form-control mt-2" name="cv" accept=".txt,.pdf,.doc,.docx">
+                            <label class="custom-file-label small-label" for="cv-file">Accepted file types: .txt, .pdf, .doc, .docx</label>
+                        </div>
+                        <div class="custom-file d-none" id="cv-link">
+                            <input type="url" class="custom-file-input form-control mt-2" name="cv_link" placeholder="https://example.com/curriculum-vitae">
+                            <label class="custom-file-label small-label">Note: LinkedIn profiles not currently supported</label> 
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary" onclick="loading(event);">Review CV</button>
-                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary mt-4" onclick="loading(event);">Submit</button>
                 </form>
+
             </div>
         </div>
     </div>
