@@ -78,15 +78,21 @@
         <div></div>
     </div>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">GPT CV Helper - Adapt Your CV For Each Job</h1>
-        <p>This tool helps you to adapt your CV to every job. 
-        To use it, upload the job description and your entire work experience as .txt files, and hit "Review CV".
-        
-        The GPT will identify the five most important skills for the job, and tell you how well your CV scores for each skill.
-        It will also make recommendations for how you can improve your CV to match the job description, and give you the opportunity
-        to add more examples of your experience on the next page. 
+        <h1 class="text-center mb-4">Bitvocation CV Doctor - Adapt Your CV For Each Job</h1>
+        <p>The Bitvocation CV Doctor is your ultimate tool for creating a personalized, optimized CV for any job application. Whether you're breaking into the Bitcoin industry or applying for your next big role, our tool ensures your CV aligns with the exact requirements of the job.</p>
+        <br>
+        <strong>How It Works:</strong>
+        <br>
+        <ol>
+            <li>Upload Your Documents: Provide the job description and your comprehensive work experience. We support .txt, .doc, .pdf, or links for both uploads.</li>
+            <li>AI-Powered Analysis: Using advanced GPT technology, the tool identifies the five most critical skills required for the job and assesses how well your CV highlights those skills.</li>
+            <li>Personalized Recommendations: Receive tailored advice to strengthen your CV, including areas where you can elaborate on your achievements or align your experience with the job requirements.</li>
+            <li>Interactive Editing: Add examples, refine your descriptions, and adjust your content with step-by-step guidance.</li>
+            <li>Download Your Optimized CV: Once complete, download a polished CV ready to make an impact.</li>
+        </ol>
 
-        Finally, you'll be able to download your optimised CV.</p>
+
+
         <div class="card mx-auto" style="max-width: 600px;">
             <div class="card-body">
                 <form id="upload-form" action="{{ url_for('candidate.process_files') }}" method="post" enctype="multipart/form-data">
