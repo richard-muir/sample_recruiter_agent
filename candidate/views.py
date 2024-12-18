@@ -9,6 +9,7 @@ from flask_weasyprint import HTML, render_pdf
 from flask_caching import Cache
 import pdfkit
 import markdown
+from markupsafe import Markup
 
 import asyncio
 from pyppeteer import launch
@@ -20,25 +21,6 @@ from agents.recruiter_cv_writer_agent import CVWriterAgent
 from . import candidate_bp
 from utils import process_uploaded_file, process_link
 
-
-    
-
-# app = Flask(__name__, template_folder='templates', static_folder='templates')
-# app.config['UPLOAD_FOLDER'] = 'uploads'
-# app.config['CACHE_TYPE'] = 'filesystem'
-# app.config['CACHE_DIR'] = 'cache'
-# cache = Cache(app)
-
-# app_agents = {}
-
-# # Define upload paths specific to the candidate blueprint
-# UPLOAD_FOLDER = os.path.join('candidate', 'uploads')
-# CV_DIR = os.path.join(UPLOAD_FOLDER, 'cv')  # Candidate's CV upload folder
-# JOB_DIR = os.path.join(UPLOAD_FOLDER, 'jd')  # Candidate's CV upload folder
-
-# Ensure the directory exists
-# os.makedirs(CV_DIR, exist_ok=True)
-# os.makedirs(JOB_DIR, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {'txt', 'doc', 'docx', 'pdf'}
 
@@ -84,6 +66,8 @@ def process_files():
     elif cv_link:
         cv_text = process_link(cv_link)
 
+    print(cv_text)
+
     
     print("Generating candidate appraisal and advice")
     # Candidate appraisal
@@ -112,7 +96,8 @@ def process_files():
     candidate_bp.agent_store.candidate_agents['advisor_agent'] = advisor_agent
     candidate_appraisal['skills'].update(candidate_advice['skills'])
 
-    job_description_md = markdown.markdown(job_description_text)
+    job_description_md = Markup(markdown.markdown(job_description_text))
+    print(job_description_md)
     return render_template('feedback_template.html', candidate=candidate_appraisal, job_description=job_description_md)
 
 
