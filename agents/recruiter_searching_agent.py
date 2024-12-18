@@ -23,17 +23,17 @@ RECIPIENT_ADDRESS = "agent1qvwum0ystzx7djjh09lw529yajk7rznnvlutfrmv44v445hsp5x3z
 class SearchingAgent(ChatGPTContextManager):
     def __init__(self, 
                  job_description, 
-                 cv_dir, 
+                 cvs, 
                  n_candidates=3, 
                  min_suitability_score=8, 
                  suitability_threshold=0.7,
                  most_important_skills='auto'):
         super().__init__()
         self.interviewing_agent_address = ''
-        self.cv_dir = cv_dir
+        self.cvs = cvs
         self.min_suitability_score = min_suitability_score
         self.suitability_threshold = suitability_threshold
-        self.cvs = []
+        # self.cvs = []
 
         self.candidates = []
         self.selected_canidates = []
@@ -64,13 +64,6 @@ class SearchingAgent(ChatGPTContextManager):
         else:
             self.most_important_skills = most_important_skills
 
-
-    @classmethod
-    def create_from_jd_and_cv_dir(cls, jd_file_path, cv_dir):
-        with open(jd_file_path, 'r', encoding='utf-8') as file:
-            job_content = file.read()
-
-        return cls(job_content, cv_dir)
     
     def get_most_important_skills(self):
         # Get the list of top five skills for the job
@@ -105,32 +98,13 @@ class SearchingAgent(ChatGPTContextManager):
     
     def appraise_candidates(self):
         self.cv_appraisal_response_format = self._generate_cv_appraisal_response_format()
-        
-        # Directory containing text files
-        folder_path = Path(self.cv_dir)
 
-        for cv_path in folder_path.glob("*.txt"):
-            # Check if the CV appraisal already exists in self.candidates
-            existing_candidate = next((candidate for candidate in self.candidates if candidate['cv_path'] == cv_path), None)
+        for cv_text in self.cvs:
+            appraised_cv = self._appraise_cv(cv_text)
+            appraised_cv['cv_text'] = cv_text
 
-            if existing_candidate:
-                # Use the existing CV text
-                cv_text = existing_candidate['cv_text']
-                # Re-appraise the CV and update the existing candidate record
-                appraised_cv = self._appraise_cv(cv_text)
-                existing_candidate.update(appraised_cv)
-            else:
-                # Read the CV text from the file
-                with cv_path.open("r", encoding="utf-8") as file:
-                    cv_text = file.read()
-
-                # Appraise the CV
-                appraised_cv = self._appraise_cv(cv_text)
-                appraised_cv['cv_text'] = cv_text
-                appraised_cv['cv_path'] = cv_path
-
-                # Add the new appraisal to self.candidates
-                self.candidates.append(appraised_cv)
+            # Add the new appraisal to self.candidates
+            self.candidates.append(appraised_cv)
 
 
     def _appraise_cv(self, cv_text):
@@ -225,121 +199,3 @@ class SearchingAgent(ChatGPTContextManager):
                 "strict": True
             }
         }
-
-        
-if __name__ == '__main__':
-    
-    searcher = SearchingAgent.create_from_jd_and_cv_dir("agentic_v1/jobs/job1.txt", "agentic_v1/cvs")
-
-
-class InterviewAgent(ChatGPTContextManager):
-
-    def __init__(self, job_description):
-        super().__init__(self)
-        self.suitability_score = 0
-
-        self.interviewing_agent = Agent(
-            name="interviewer",
-            port=8001,
-            seed="jumps over the lazy dog",
-            endpoint=["http://127.0.0.1:8001/submit"],
-        )
-        fund_agent_if_low(self.interviewing_agent.wallet.address())
-
-
-        self.initial_content = f"""You are a professional recruiter named Bilbo Bobbins, specialising in interviewing candidates.
-            You are looking for the perfect candidate for the job, and will ask questions to find that candidate.
-            For your reference, here is the job description: {job_description}.
-
-            You are proactive in finding the best candidate, but you are very happy to dismiss a candidate if they don't fit.
-
-            You address the candidate directly, asking one direct question at a time.
-
-            You can ask a maximum of ten questions to the candidate, 
-            and you need to keep track of the candidate's suitability for the role. 
-            When asked for the candidate's suitability, you retrun a score between 0 and 10, with 10 being the most suitable."""
-        
-        self.send_message('system', self.initial_content)
-
-    @classmethod
-    def job_description_from_text_file(cls, file_path):
-        with open(file_path, 'r', encoding='utf-8') as file:
-            job_content = file.read()
-
-        return cls(job_content)
-
-
-    
-    def get_suitability_score(self):
-        message = "What is the candidate's suitability score for this job?"
-        response_format={
-            "type": "json_schema",
-            "json_schema": {
-                "name": "suitability_score_response",
-                "schema": {
-                    "type": "object",
-                    "properties": {
-                        "suitability_score": {
-                            "type": "integer",
-                            "description": "A score representing the suitability of the application."
-                        }
-                    },
-                    "required": ["suitability_score"],
-                    "additionalProperties": False
-                },
-                "strict": True
-            }
-        }
-        message = self.send_message('user', message, response_format=response_format)
-        self.suitability_score = message["suitability_score"]
-        
-
-
-
-
-
-
-
-
- 
-# @recruiter.on_event("startup")
-# async def send_opening_message(ctx: Context):
-#     ctx.logger.info(f"Recruiter bot initialised")
-#     gpt_message = [
-#         {"role": "system", "content": system_content},
-#         {
-#             "role": "user",
-#             "content": "Using the information from the CV you have been provided, please begin the recruitment process."
-#         }
-#     ]
-
-#     ctx.logger.info(f"Generating response from ChatGPT")
-#     completion = client.chat.completions.create(
-#         model="gpt-4o",
-#         messages=gpt_message
-#     )
-#     msg = completion.choices[0].message.content
-#     ctx.logger.info(f"Generated first contact message: {msg}")
-
-
-#     await ctx.send(RECIPIENT_ADDRESS, Message(message=msg))
- 
-# @recruiter.on_message(model=Message)
-# async def message_handler(ctx: Context, sender: str, msg: Message):
-#     ctx.logger.info(f"Received message from {sender}: {msg.message}")
-
-#     gpt_message = create_chat_gpt_message(msg.message)
-#     completion = client.chat.completions.create(
-#         model="gpt-4o",
-#         messages=gpt_message
-#     )
-#     msg = completion.choices[0].message.content
-#     ctx.logger.info(f"Generated response: {msg}")
-
-#     await ctx.send(sender, Message(message=msg))
-
-
- 
-# if __name__ == "__main__":
-#     recruiter.run()
- 

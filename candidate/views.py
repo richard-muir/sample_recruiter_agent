@@ -31,14 +31,14 @@ from utils import process_uploaded_file, process_link
 
 # app_agents = {}
 
-# Define upload paths specific to the candidate blueprint
-UPLOAD_FOLDER = os.path.join('candidate', 'uploads')
-CV_DIR = os.path.join(UPLOAD_FOLDER, 'cv')  # Candidate's CV upload folder
-JOB_DIR = os.path.join(UPLOAD_FOLDER, 'jd')  # Candidate's CV upload folder
+# # Define upload paths specific to the candidate blueprint
+# UPLOAD_FOLDER = os.path.join('candidate', 'uploads')
+# CV_DIR = os.path.join(UPLOAD_FOLDER, 'cv')  # Candidate's CV upload folder
+# JOB_DIR = os.path.join(UPLOAD_FOLDER, 'jd')  # Candidate's CV upload folder
 
 # Ensure the directory exists
-os.makedirs(CV_DIR, exist_ok=True)
-os.makedirs(JOB_DIR, exist_ok=True)
+# os.makedirs(CV_DIR, exist_ok=True)
+# os.makedirs(JOB_DIR, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {'txt', 'doc', 'docx', 'pdf'}
 
@@ -89,7 +89,7 @@ def process_files():
     # Candidate appraisal
     searching_agent = SearchingAgent(
         job_description=job_description_text,
-        cv_dir=CV_DIR,
+        cvs=[cv_text],
         n_candidates=1,
         min_suitability_score=8,
         suitability_threshold=0,
