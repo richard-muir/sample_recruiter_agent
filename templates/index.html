@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the CV Helper App</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container text-center mt-5">
-        <h1 class="mb-4">Welcome to the CV Helper App</h1>
-        <p class="mb-5">Choose whether you are a recruiter looking to find the best candidates or a candidate looking to optimize your CV for the perfect job.</p>
-        <div class="d-grid gap-3 d-sm-flex justify-content-center">
-            <a href="/recruiter" class="btn btn-primary btn-lg">I'm a Recruiter</a>
-            <a href="/candidate" class="btn btn-success btn-lg">I'm a Candidate</a>
-        </div>
+{% extends "base.html" %}
+
+{% block title %}Home - Bitvocation CV Doctor{% endblock %}
+
+{% block content %}
+<div class="full-width-image d-flex align-items-center justify-content-center">
+    <div class="text-center intro-text">
+        <h1>Welcome to the Bitvocation CV Doctor</h1>
+        <p>
+            Transform your CV to match specific job postings with ease. The CV Doctor helps you
+            adapt, optimize, and improve your resume for any role in the Bitcoin ecosystem.
+            Showcase your skills and land your dream Bitcoin job today!
+        </p>
+        <p>
+            <strong>About Bitvocation:</strong> We empower Bitcoiners to break free from their fiat jobs by providing 
+            resources and tools to launch careers in Bitcoin. Join our community, access job postings, and gain insights 
+            from industry professionals.
+        </p>
     </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+{% endblock %}

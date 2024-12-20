@@ -20,7 +20,7 @@ from agents.recruiter_cv_writer_agent import CVWriterAgent
 
 from . import candidate_bp
 from utils import process_uploaded_file, process_link
-
+from connections import SupabaseConnection
 
 ALLOWED_EXTENSIONS = {'txt', 'doc', 'docx', 'pdf'}
 
@@ -42,7 +42,9 @@ def clear_directory(directory_path):
 
 @candidate_bp.route('/')
 def home():
-    return render_template('c_index.html')
+    conn = SupabaseConnection()
+    jobs = conn.get_all_jobs()
+    return render_template('c_index.html', jobs=jobs)
 
 
 @candidate_bp.route('/process', methods=['POST'])

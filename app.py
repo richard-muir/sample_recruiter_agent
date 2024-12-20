@@ -38,10 +38,17 @@ def login():
             flash("Login successful!", "success")
             return redirect(url_for('home'))
         else:
-            flash("Invalid credentials. Please try again.", "danger")
+            return render_template('index.html', error_message="Invalid username or password.")
+        
     
     # Render the login form
-    return render_template('login.html')
+    return render_template('index.html')
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 
 @app.route('/')
 def home():

@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <title>Job Application Helper</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-    <script type="text/javascript">
+{% extends "base.html" %}
+
+{% block title %}Bitvocation CV Doctor - Adapt Your CV{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
         function loading(event){
             console.log(event)
             // Prevent the form from submitting immediately
@@ -73,48 +69,45 @@
             color: #333; /* Optional: Sets a custom color */
         }
     </style>
-<body>
-    <div id="loader">
-        <div></div>
-    </div>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Bitvocation CV Doctor - Adapt Your CV For Each Job</h1>
-        <p>The Bitvocation CV Doctor is your ultimate tool for creating a personalized, optimized CV for any job application. Whether you're breaking into the Bitcoin industry or applying for your next big role, our tool ensures your CV aligns with the exact requirements of the job.</p>
-        <br>
-        <strong>How It Works:</strong>
-        <br>
-        <ol>
-            <li>Upload Your Documents: Provide the job description and your comprehensive work experience. We support .txt, .doc, .pdf, or links for both uploads.</li>
-            <li>AI-Powered Analysis: Using advanced GPT technology, the tool identifies the five most critical skills required for the job and assesses how well your CV highlights those skills.</li>
-            <li>Personalized Recommendations: Receive tailored advice to strengthen your CV, including areas where you can elaborate on your achievements or align your experience with the job requirements.</li>
-            <li>Interactive Editing: Add examples, refine your descriptions, and adjust your content with step-by-step guidance.</li>
-            <li>Download Your Optimized CV: Once complete, download a polished CV ready to make an impact.</li>
-        </ol>
+<div id="loader">
+    <div></div>
+</div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Bitvocation CV Doctor - Adapt Your CV For Each Job</h1>
+    <p>The Bitvocation CV Doctor is your ultimate tool for creating a personalized, optimized CV for any job application. Whether you're breaking into the Bitcoin industry or applying for your next big role, our tool ensures your CV aligns with the exact requirements of the job.</p>
+    <br>
+    <strong>How It Works:</strong>
+    <br>
+    <ol>
+        <li>Upload Your Documents: Provide the job description and your comprehensive work experience. We support .txt, .doc, .pdf, or links for both uploads.</li>
+        <li>AI-Powered Analysis: Using advanced GPT technology, the tool identifies the five most critical skills required for the job and assesses how well your CV highlights those skills.</li>
+        <li>Personalized Recommendations: Receive tailored advice to strengthen your CV, including areas where you can elaborate on your achievements or align your experience with the job requirements.</li>
+        <li>Interactive Editing: Add examples, refine your descriptions, and adjust your content with step-by-step guidance.</li>
+        <li>Download Your Optimized CV: Once complete, download a polished CV ready to make an impact.</li>
+    </ol>
 
+    <div class="row g-4 mt-4">
+        <!-- Job Description Form -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form id="job-description-form">
+                        <label for="job-description-toggle" class="large-label">Pick a Job</label>
+                        <select class="form-select mt-2" id="job-select" name="job_id">
+                            {% for job in jobs %}
+                                <option value="{{ job.id }}">{{ job.job_title_name }} at {{ job.company_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-
-        <div class="card mx-auto" style="max-width: 600px;">
-            <div class="card-body">
-                <form id="upload-form" action="{{ url_for('candidate.process_files') }}" method="post" enctype="multipart/form-data">
-                    <!-- Job Description Input -->
-                    <div class="form-group">
-                        <label for="job-description-toggle" class="large-label">Job Description</label>
-                        <div class="d-flex align-items-center form-check form-switch">
-                            <input type="checkbox" id="job-description-toggle" role="switch" class="form-check-input me-2" onchange="toggleInput('job-description')">
-                            <label for="job-description-toggle" class="form-check-label">Use Link</label>
-                        </div>
-                        <div class="custom-file" id="job-description-file">
-                            <input type="file" class="custom-file-input form-control mt-2" name="job_description" accept=".txt,.pdf,.doc,.docx">
-                            <label class="custom-file-label small-label">Accepted file types: .txt, .pdf, .doc, .docx</label> 
-                        </div>
-                        <div class="custom-file  d-none" id="job-description-link">
-                            <input type="url" class="custom-file-input form-control mt-2" name="job_description_link" placeholder="https://example.com/job_description">
-                            <label class="custom-file-label small-label">Note: LinkedIn job descriptions not currently supported</label> 
-                        </div>
-                    </div>
-                    <br>
-                    <!-- CV Input -->
-                    <div class="form-group mt-3">
+        <!-- CV Form -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form id="cv-form">
                         <label for="cv-toggle" class="large-label">Your CV</label>
                         <div class="d-flex align-items-center form-check form-switch">
                             <input type="checkbox" id="cv-toggle" role="switch" class="form-check-input me-2" onchange="toggleInput('cv')">
@@ -122,26 +115,22 @@
                         </div>
                         <div class="custom-file" id="cv-file">
                             <input type="file" class="custom-file-input form-control mt-2" name="cv" accept=".txt,.pdf,.doc,.docx">
-                            <label class="custom-file-label small-label" for="cv-file">Accepted file types: .txt, .pdf, .doc, .docx</label>
+                            <label class="custom-file-label small-label">Accepted file types: .txt, .pdf, .doc, .docx</label>
                         </div>
                         <div class="custom-file d-none" id="cv-link">
                             <input type="url" class="custom-file-input form-control mt-2" name="cv_link" placeholder="https://example.com/curriculum-vitae">
-                            <label class="custom-file-label small-label">Note: LinkedIn profiles not currently supported</label> 
+                            <label class="custom-file-label small-label">Note: LinkedIn profiles not currently supported</label>
                         </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary mt-4" onclick="loading(event);">Submit</button>
-                </form>
-
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- <footer class="text-center mt-5">
-        <p>&copy; 2024 Job Helper | All Rights Reserved</p>
-    </footer> -->
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary" onclick="loading(event);">Submit</button>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
