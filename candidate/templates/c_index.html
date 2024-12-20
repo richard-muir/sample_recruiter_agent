@@ -94,8 +94,9 @@
                     <form id="job-description-form">
                         <label for="job-description-toggle" class="large-label">Pick a Job</label>
                         <select class="form-select mt-2" id="job-select" name="job_id">
+                        
                             {% for job in jobs %}
-                                <option value="{{ job.id }}">{{ job.job_title_name }} at {{ job.company_name }}</option>
+                                <option value="{{ job.export_location }}">{{ job.job_title_name }} at {{ job.company_name }}</option>
                             {% endfor %}
                         </select>
                     </form>
@@ -132,5 +133,10 @@
         <button type="submit" class="btn btn-primary" onclick="loading(event);">Submit</button>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#job-select').select2();
+    });
+</script>
 
 {% endblock %}
