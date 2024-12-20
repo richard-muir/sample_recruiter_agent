@@ -17,10 +17,11 @@ from pyppeteer import launch
 from agents.recruiter_searching_agent import SearchingAgent
 from agents.recruiter_advisor_agent import AdvisorAgent
 from agents.recruiter_cv_writer_agent import CVWriterAgent
+from agents.virtual_assistant import VirtualAssistantAgent
 
 from . import candidate_bp
-from utils import process_uploaded_file, process_link
-from connections import SupabaseConnection
+from utils import process_file, fetch_pdf_content_from_link
+from connections import SupabaseConnection, GithubConnection
 
 ALLOWED_EXTENSIONS = {'txt', 'doc', 'docx', 'pdf'}
 
@@ -49,57 +50,68 @@ def home():
 
 @candidate_bp.route('/process', methods=['POST'])
 def process_files():
-    job_description_text = ""
-    cv_text = ""
+    errors = []
 
-    # Job Description Handling
-    job_file = request.files.get('job_description')
-    job_link = request.form.get('job_description_link')
-    if job_file and allowed_file(job_file.filename):
-        job_description_text = process_uploaded_file(job_file)
-    elif job_link:
-        job_description_text = process_link(job_link)
+    job_desc_extract_link = request.form.get('job_id')
+
+    gh = GithubConnection()
+    job_description_raw = gh.get_job_description(job_desc_extract_link)
+    print(job_description_raw)
+    # VA = VirtualAssistantAgent()
+    # job_description = VA.send_message("user", f"Please extract the job description from this webpage: \n {job_description_raw}")
+
 
     # CV Handling
+
+
+    cv_text = ""
     cv_file = request.files.get('cv')
     cv_link = request.form.get('cv_link')
     if cv_file and allowed_file(cv_file.filename):
-        cv_text = process_uploaded_file(cv_file)
+        try:
+            cv_text = process_file(cv_file)
+        except Exception as e:
+            errors.append(str(e))
     elif cv_link:
-        cv_text = process_link(cv_link)
+        try:
+            cv_text = fetch_pdf_content_from_link(cv_link)
+        except ValueError as e:
+            errors.append(str(e))
+        
+
 
     print(cv_text)
 
     
-    print("Generating candidate appraisal and advice")
-    # Candidate appraisal
-    searching_agent = SearchingAgent(
-        job_description=job_description_text,
-        cvs=[cv_text],
-        n_candidates=1,
-        min_suitability_score=8,
-        suitability_threshold=0,
-        most_important_skills='auto'
-    )
-    searching_agent.most_important_skills = ["Bitcoin knowledge and experience"] + searching_agent.most_important_skills
+    # print("Generating candidate appraisal and advice")
+    # # Candidate appraisal
+    # searching_agent = SearchingAgent(
+    #     job_description=job_description_text,
+    #     cvs=[cv_text],
+    #     n_candidates=1,
+    #     min_suitability_score=8,
+    #     suitability_threshold=0,
+    #     most_important_skills='auto'
+    # )
+    # searching_agent.most_important_skills = ["Bitcoin knowledge and experience"] + searching_agent.most_important_skills
 
-    searching_agent.appraise_candidates()
-    candidate_bp.agent_store.candidate_agents['searching_agent'] = searching_agent
-    candidate_appraisal = copy.deepcopy(searching_agent.candidates[0])
+    # searching_agent.appraise_candidates()
+    # candidate_bp.agent_store.candidate_agents['searching_agent'] = searching_agent
+    # candidate_appraisal = copy.deepcopy(searching_agent.candidates[0])
 
-    # Candidate advice
-    advisor_agent = AdvisorAgent(
-        job_description=job_description_text,
-        cv=cv_text,
-        most_important_skills=searching_agent.most_important_skills,
-        recruiter_appraisal_data=candidate_appraisal
-    )
-    candidate_advice = advisor_agent.advise_candidate()
-    candidate_bp.agent_store.candidate_agents['advisor_agent'] = advisor_agent
-    candidate_appraisal['skills'].update(candidate_advice['skills'])
+    # # Candidate advice
+    # advisor_agent = AdvisorAgent(
+    #     job_description=job_description_text,
+    #     cv=cv_text,
+    #     most_important_skills=searching_agent.most_important_skills,
+    #     recruiter_appraisal_data=candidate_appraisal
+    # )
+    # candidate_advice = advisor_agent.advise_candidate()
+    # candidate_bp.agent_store.candidate_agents['advisor_agent'] = advisor_agent
+    # candidate_appraisal['skills'].update(candidate_advice['skills'])
 
-    job_description_md = Markup(markdown.markdown(job_description_text))
-    print(job_description_md)
+    # job_description_md = Markup(markdown.markdown(job_description_text))
+    # print(job_description_md)
     return render_template('feedback_template.html', candidate=candidate_appraisal, job_description=job_description_md)
 
 

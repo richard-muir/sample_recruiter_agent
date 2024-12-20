@@ -85,13 +85,11 @@
         <li>Interactive Editing: Add examples, refine your descriptions, and adjust your content with step-by-step guidance.</li>
         <li>Download Your Optimized CV: Once complete, download a polished CV ready to make an impact.</li>
     </ol>
-
-    <div class="row g-4 mt-4">
-        <!-- Job Description Form -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <form id="job-description-form">
+    <form method="POST" id='upload-form' action="{{ url_for('candidate.process_files') }}" enctype="multipart/form-data">
+        <div class="row g-4 mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
                         <label for="job-description-toggle" class="large-label">Pick a Job</label>
                         <select class="form-select mt-2" id="job-select" name="job_id">
                         
@@ -99,16 +97,14 @@
                                 <option value="{{ job.export_location }}">{{ job.job_title_name }} at {{ job.company_name }}</option>
                             {% endfor %}
                         </select>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- CV Form -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <form id="cv-form">
+            <!-- CV Form -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
                         <label for="cv-toggle" class="large-label">Your CV</label>
                         <div class="d-flex align-items-center form-check form-switch">
                             <input type="checkbox" id="cv-toggle" role="switch" class="form-check-input me-2" onchange="toggleInput('cv')">
@@ -120,13 +116,13 @@
                         </div>
                         <div class="custom-file d-none" id="cv-link">
                             <input type="url" class="custom-file-input form-control mt-2" name="cv_link" placeholder="https://example.com/curriculum-vitae">
-                            <label class="custom-file-label small-label">Note: LinkedIn profiles not currently supported</label>
+                            <label class="custom-file-label small-label">Please send a link to your CV as a PDF. Remember to give sharing permissions.</label>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <!-- Submit Button -->
     <div class="text-center mt-4">
