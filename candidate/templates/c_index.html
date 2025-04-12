@@ -68,6 +68,11 @@
             font-size: 0.75rem; /* Adjust size as needed */
             color: #333; /* Optional: Sets a custom color */
         }
+        .error-text {
+            color: red;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
     </style>
 <div id="loader">
     <div></div>
@@ -79,7 +84,8 @@
     <strong>How It Works:</strong>
     <br>
     <ol>
-        <li>Upload Your Documents: Provide the job description and your comprehensive work experience. We support .txt, .doc, .pdf, or links for both uploads.</li>
+        <li>Select a Job: Choose from one of Bitvocation's curated jobs. Use the search feature to find one close to your skills.</li>
+        <li>Upload Your CV: Provide our comprehensive work experience. We support .txt, .doc, .pdf upload, or a link to a PDF (say, on Google Drive).</li>
         <li>AI-Powered Analysis: Using advanced GPT technology, the tool identifies the five most critical skills required for the job and assesses how well your CV highlights those skills.</li>
         <li>Personalized Recommendations: Receive tailored advice to strengthen your CV, including areas where you can elaborate on your achievements or align your experience with the job requirements.</li>
         <li>Interactive Editing: Add examples, refine your descriptions, and adjust your content with step-by-step guidance.</li>
@@ -97,6 +103,11 @@
                                 <option value="{{ job.export_location }}">{{ job.job_title_name }} at {{ job.company_name }}</option>
                             {% endfor %}
                         </select>
+                        {% if errors['jd'] %}
+                            {% for error in errors['jd'] %}
+                                <p class="error-text">{{ error }}</p><br>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -118,6 +129,11 @@
                             <input type="url" class="custom-file-input form-control mt-2" name="cv_link" placeholder="https://example.com/curriculum-vitae">
                             <label class="custom-file-label small-label">Please send a link to your CV as a PDF. Remember to give sharing permissions.</label>
                         </div>
+                        {% if errors['cv'] %}
+                            {% for error in errors['cv'] %}
+                                <p class="error-text">{{ error }}</p><br>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

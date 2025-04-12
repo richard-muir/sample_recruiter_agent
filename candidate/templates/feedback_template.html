@@ -1,133 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <title>CV Appraisal Results</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript">
-        function loading_generate(event){
-            console.log(event)
-            // Prevent the form from submitting immediately
-            event.preventDefault();
-            // Show the loader
-            document.getElementById("loader").style.display = "flex";
-            // Submit the form manually
-            document.getElementById("gemerate-cv-form").submit();
+{% extends "base.html" %}
+
+{% block title %}CV Appraisal Results for {{ candidate.name }}{% endblock %}
+
+{% block content %}
+<!-- Bootstrap JS and Popper.js (Optional but recommended) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script type="text/javascript">
+    function loading_generate(event){
+        console.log(event)
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+        // Show the loader
+        document.getElementById("loader").style.display = "flex";
+        // Submit the form manually
+        document.getElementById("gemerate-cv-form").submit();
+    }
+    function loading_resubmit(event){
+        console.log(event)
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+        // Show the loader
+        document.getElementById("loader").style.display = "flex";
+        // Submit the form manually
+        document.getElementById("resubmit-cv-form").submit();
+    }
+</script>
+<style>
+    #loader {
+        position: fixed; /* Fixed to the screen */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none; /* Use Flexbox to center the loader */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 9999; /* Make sure it appears on top */
+    }
+    #loader div {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
         }
-        function loading_resubmit(event){
-            console.log(event)
-            // Prevent the form from submitting immediately
-            event.preventDefault();
-            // Show the loader
-            document.getElementById("loader").style.display = "flex";
-            // Submit the form manually
-            document.getElementById("resubmit-cv-form").submit();
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
         }
-    </script>
-    <style>
-        #loader {
-            position: fixed; /* Fixed to the screen */
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: none; /* Use Flexbox to center the loader */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            z-index: 9999; /* Make sure it appears on top */
-        }
-        #loader div {
-            border: 16px solid #f3f3f3; /* Light grey */
-            border-top: 16px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            animation: spin 2s linear infinite;
-            }
+</style>
+<div id="loader">
+    <div></div>
+</div>
+<div class="container my-5">
+    <h1 class="text-center mb-4">CV Appraisal Results for {{ candidate.name }}</h1>
+    <p class="">Thank you for submitting your CV! We have appraised it against the key skills and requirements outlined in the job description. 
+    Below, you'll find a detailed evaluation of your skills in relation to the role, along with an overall suitability score.<br><br>
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-            }
-    </style>
-</head>
-<body>
-    <div id="loader">
-        <div></div>
-    </div>
-    <div class="container my-5">
-        <h1 class="text-center mb-4">CV Appraisal Results for {{ candidate.name }}</h1>
-        <p class="">Thank you for submitting your CV! We have appraised it against the key skills and requirements outlined in the job description. 
-        Below, you'll find a detailed evaluation of your skills in relation to the role, along with an overall suitability score.<br><br>
+    The appraisal focuses on the most important skills identified for the position. For each skill, you'll see:
 
-        The appraisal focuses on the most important skills identified for the position. For each skill, you'll see:
+    Your score on a scale of 0-10, reflecting how well your CV demonstrates expertise in this area.
+    A justification, explaining the reasons for the score based on the information provided in your CV.
+    Additionally, we have calculated an overall suitability score to give you a high-level view of your alignment with the job requirements.<br><br>
 
-        Your score on a scale of 0-10, reflecting how well your CV demonstrates expertise in this area.
-        A justification, explaining the reasons for the score based on the information provided in your CV.
-        Additionally, we have calculated an overall suitability score to give you a high-level view of your alignment with the job requirements.<br><br>
-
-        We hope this feedback provides valuable insight into how your skills match the role and helps you in your career journey. 
-        You can add in new experience and evidence in the spaces provided, and resubmit your CV to see how well it scores with the new information.
-        Otherwise, you can go ahead generate your adapted CV and print it to PDF.</p><br><br>
-                
-        <!-- Accordion for collapsible sections -->
-        <div>
-            <div class="accordion" id="outputAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingUnselected">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUnselected" aria-expanded="false" aria-controls="collapseUnselected">
-                            View Job Description
-                        </button>
-                    </h2>
-                    <div id="collapseUnselected" class="accordion-collapse collapse" aria-labelledby="headingUnselected" data-bs-parent="#outputAccordion">
-                        <div class="accordion-body">
-                            {{ job_description }}
-                        </div>
+    We hope this feedback provides valuable insight into how your skills match the role and helps you in your career journey. 
+    You can add in new experience and evidence in the spaces provided, and resubmit your CV to see how well it scores with the new information.
+    Otherwise, you can go ahead generate your adapted CV and print it to PDF.</p><br><br>
+            
+    <!-- Accordion for collapsible sections -->
+    <div>
+        <div class="accordion" id="outputAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingUnselected">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUnselected" aria-expanded="false" aria-controls="collapseUnselected">
+                        View Extracted Job Description
+                    </button>
+                </h2>
+                <div id="collapseUnselected" class="accordion-collapse collapse" aria-labelledby="headingUnselected" data-bs-parent="#outputAccordion">
+                    <div class="accordion-body">
+                        <p><a href="{{ link_to_job_details }}">Link to Job Posting</a></p>
+                        {{ job_description }}
                     </div>
                 </div>
             </div>
-
-            <!-- List of selected candidates -->
-            <ul class="list-group mt-4">
-                <li class="list-group-item">
-                    <h3>{{ candidate.name }}</h3><br>
-                    <em>Email:</em> {{ candidate.email }}<br>
-                    <em>Overall Suitability Score:</em> {{ candidate.overall_score }}<br>
-                    <h4>Skills Appraisal:</h4><br>
-                    <form method="POST" id="resubmit-cv-form" action="/candidate/update_cv">
-                        {% for skill, score in candidate['skills'].items() if 'JUSTIFICATION' not in skill and 'ADVICE' not in skill %}
-                            <h4>{{ skill }} assessment score: {{ score }}</h4><br>
-                            <strong>Assessment of CV information in this area: </strong>
-                            {{ candidate['skills'][skill + "_JUSTIFICATION"] }}<br><br>
-
-                            <strong>Suggestion for improvement: </strong>
-                            {{ candidate['skills'][skill + "_ADVICE"] }}<br><br>
-
-                            <!-- Text box for candidate to provide updates -->
-                            <textarea id="update_{{ skill }}" name="{{ skill }}" rows="4" style="width: 100%;" placeholder="Add more information about your experience with {{ skill }}"></textarea><br><br>
-                        {% endfor %}
-                        <div id="button-div" style="display: flex; justify-content: flex-end; gap: 10px;">
-                            <button id="refresh" class='btn btn-primary' onclick="loading_resubmit(event);">Submit updated info</button>
-                        </div>
-                    </form>
-                    <form action="/candidate/generate_cv" id="generate-cv-form" method="POST">
-                        <div id="button-div" style="display: flex; justify-content: flex-end; gap: 10px;">
-                            <button id="generate_cv" style="justify-content: flex-end;" class='btn btn-secondary' onclick="loading_generate(event);">Show me the adapted CV</button>
-                        </div>
-                    </form>
-                </li>
-            </ul>
         </div>
+
+        <!-- List of selected candidates -->
+        <ul class="list-group mt-4">
+            <li class="list-group-item">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Overall Suitability Score:  {{ candidate.overall_score }}</h3><br>
+                    </div>
+                </div>
+
+                <!-- Skills Appraisal -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Skills Appraisal:</h4>
+                        <form method="POST" id="resubmit-cv-form" action="/candidate/update_cv">
+                            {% for skill, score in candidate['skills'].items() if 'JUSTIFICATION' not in skill and 'ADVICE' not in skill %}
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5>{{ skill }} Assessment</h5>
+                                        <p><strong>Assessment Score:</strong> {{ score }}</p>
+                                        <p><strong>Assessment of CV Information:</strong> {{ candidate['skills'][skill + "_JUSTIFICATION"] }}</p>
+                                        <p><strong>Suggestion for Improvement:</strong> {{ candidate['skills'][skill + "_ADVICE"] }}</p>
+
+                                        <!-- Text box for candidate to provide updates -->
+                                        <textarea
+                                            id="update_{{ skill }}"
+                                            name="{{ skill }}"
+                                            rows="4"
+                                            class="form-control"
+                                            placeholder="Add more information about your experience with {{ skill }}"></textarea>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="text-end">
+                                <button id="refresh" class="btn btn-primary" onclick="loading_resubmit(event);">Submit Updated Info</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <form action="/candidate/generate_cv" id="generate-cv-form" method="POST">
+                            <div class="text-end">
+                                <button id="generate_cv" class="btn btn-secondary" onclick="loading_generate(event);">Show Me the Adapted CV</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
+</div>
 
-    <!-- Bootstrap JS and Popper.js (Optional but recommended) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+{% endblock %}

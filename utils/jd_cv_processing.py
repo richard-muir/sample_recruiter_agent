@@ -109,7 +109,8 @@ class TextCleaneriser:
 
         # Clean up extra spaces or newlines from removal
         text = re.sub(r'\n\s*\n', '\n', text)  # Remove extra blank lines
-        text = text.strip()  # Remove leading/trailing whitespace
+        text = text.replace('{', '').replace('}', '')
+        text = ' '.join(text.split()) # Remove extra whitlespaces
 
         return text
 

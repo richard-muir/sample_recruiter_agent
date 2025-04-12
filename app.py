@@ -58,6 +58,7 @@ def home():
         return redirect(url_for('candidate.home'))
     else:
         return redirect(url_for('login'))
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

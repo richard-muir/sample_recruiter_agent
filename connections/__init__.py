@@ -1,2 +1,1 @@
-from .supabase import SupabaseConnection
-from .github import GithubConnection
+from .manage_connections import get_supabase_connection, get_github_connection
